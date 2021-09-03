@@ -3,40 +3,75 @@
 
 package bess_pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
-// / The Field message represents one field in a packet -- either stored in metadata or in the packet body.
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
+/// The Field message represents one field in a packet -- either stored in metadata or in the packet body.
 type Field struct {
 	// Types that are valid to be assigned to Position:
 	//	*Field_AttrName
 	//	*Field_Offset
-	Position isField_Position `protobuf_oneof:"position"`
-	NumBytes uint32           `protobuf:"varint,3,opt,name=num_bytes,json=numBytes" json:"num_bytes,omitempty"`
+	Position             isField_Position `protobuf_oneof:"position"`
+	NumBytes             uint32           `protobuf:"varint,3,opt,name=num_bytes,json=numBytes,proto3" json:"num_bytes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *Field) Reset()                    { *m = Field{} }
-func (m *Field) String() string            { return proto.CompactTextString(m) }
-func (*Field) ProtoMessage()               {}
-func (*Field) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
+func (m *Field) Reset()         { *m = Field{} }
+func (m *Field) String() string { return proto.CompactTextString(m) }
+func (*Field) ProtoMessage()    {}
+func (*Field) Descriptor() ([]byte, []int) {
+	return fileDescriptor_13ab78aab20448e2, []int{0}
+}
 
-type isField_Position interface{ isField_Position() }
+func (m *Field) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Field.Unmarshal(m, b)
+}
+func (m *Field) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Field.Marshal(b, m, deterministic)
+}
+func (m *Field) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Field.Merge(m, src)
+}
+func (m *Field) XXX_Size() int {
+	return xxx_messageInfo_Field.Size(m)
+}
+func (m *Field) XXX_DiscardUnknown() {
+	xxx_messageInfo_Field.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Field proto.InternalMessageInfo
+
+type isField_Position interface {
+	isField_Position()
+}
 
 type Field_AttrName struct {
-	AttrName string `protobuf:"bytes,1,opt,name=attr_name,json=attrName,oneof"`
+	AttrName string `protobuf:"bytes,1,opt,name=attr_name,json=attrName,proto3,oneof"`
 }
+
 type Field_Offset struct {
-	Offset uint32 `protobuf:"varint,2,opt,name=offset,oneof"`
+	Offset uint32 `protobuf:"varint,2,opt,name=offset,proto3,oneof"`
 }
 
 func (*Field_AttrName) isField_Position() {}
-func (*Field_Offset) isField_Position()   {}
+
+func (*Field_Offset) isField_Position() {}
 
 func (m *Field) GetPosition() isField_Position {
 	if m != nil {
@@ -66,94 +101,64 @@ func (m *Field) GetNumBytes() uint32 {
 	return 0
 }
 
-// XXX_OneofFuncs is for the internal use of the proto package.
-func (*Field) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _Field_OneofMarshaler, _Field_OneofUnmarshaler, _Field_OneofSizer, []interface{}{
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Field) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
 		(*Field_AttrName)(nil),
 		(*Field_Offset)(nil),
 	}
 }
 
-func _Field_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*Field)
-	// position
-	switch x := m.Position.(type) {
-	case *Field_AttrName:
-		b.EncodeVarint(1<<3 | proto.WireBytes)
-		b.EncodeStringBytes(x.AttrName)
-	case *Field_Offset:
-		b.EncodeVarint(2<<3 | proto.WireVarint)
-		b.EncodeVarint(uint64(x.Offset))
-	case nil:
-	default:
-		return fmt.Errorf("Field.Position has unexpected type %T", x)
-	}
-	return nil
-}
-
-func _Field_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*Field)
-	switch tag {
-	case 1: // position.attr_name
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeStringBytes()
-		m.Position = &Field_AttrName{x}
-		return true, err
-	case 2: // position.offset
-		if wire != proto.WireVarint {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeVarint()
-		m.Position = &Field_Offset{uint32(x)}
-		return true, err
-	default:
-		return false, nil
-	}
-}
-
-func _Field_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*Field)
-	// position
-	switch x := m.Position.(type) {
-	case *Field_AttrName:
-		n += proto.SizeVarint(1<<3 | proto.WireBytes)
-		n += proto.SizeVarint(uint64(len(x.AttrName)))
-		n += len(x.AttrName)
-	case *Field_Offset:
-		n += proto.SizeVarint(2<<3 | proto.WireVarint)
-		n += proto.SizeVarint(uint64(x.Offset))
-	case nil:
-	default:
-		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
-	}
-	return n
-}
-
-// / The FieldData message encodes a value to insert into a packet; the value can be supplied as either an int or a bytestring.
+/// The FieldData message encodes a value to insert into a packet; the value can be supplied as either an int or a bytestring.
 type FieldData struct {
 	// Types that are valid to be assigned to Encoding:
 	//	*FieldData_ValueBin
 	//	*FieldData_ValueInt
-	Encoding isFieldData_Encoding `protobuf_oneof:"encoding"`
+	Encoding             isFieldData_Encoding `protobuf_oneof:"encoding"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
-func (m *FieldData) Reset()                    { *m = FieldData{} }
-func (m *FieldData) String() string            { return proto.CompactTextString(m) }
-func (*FieldData) ProtoMessage()               {}
-func (*FieldData) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
+func (m *FieldData) Reset()         { *m = FieldData{} }
+func (m *FieldData) String() string { return proto.CompactTextString(m) }
+func (*FieldData) ProtoMessage()    {}
+func (*FieldData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_13ab78aab20448e2, []int{1}
+}
 
-type isFieldData_Encoding interface{ isFieldData_Encoding() }
+func (m *FieldData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FieldData.Unmarshal(m, b)
+}
+func (m *FieldData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FieldData.Marshal(b, m, deterministic)
+}
+func (m *FieldData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FieldData.Merge(m, src)
+}
+func (m *FieldData) XXX_Size() int {
+	return xxx_messageInfo_FieldData.Size(m)
+}
+func (m *FieldData) XXX_DiscardUnknown() {
+	xxx_messageInfo_FieldData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FieldData proto.InternalMessageInfo
+
+type isFieldData_Encoding interface {
+	isFieldData_Encoding()
+}
 
 type FieldData_ValueBin struct {
 	ValueBin []byte `protobuf:"bytes,1,opt,name=value_bin,json=valueBin,proto3,oneof"`
 }
+
 type FieldData_ValueInt struct {
-	ValueInt uint64 `protobuf:"varint,2,opt,name=value_int,json=valueInt,oneof"`
+	ValueInt uint64 `protobuf:"varint,2,opt,name=value_int,json=valueInt,proto3,oneof"`
 }
 
 func (*FieldData_ValueBin) isFieldData_Encoding() {}
+
 func (*FieldData_ValueInt) isFieldData_Encoding() {}
 
 func (m *FieldData) GetEncoding() isFieldData_Encoding {
@@ -177,69 +182,12 @@ func (m *FieldData) GetValueInt() uint64 {
 	return 0
 }
 
-// XXX_OneofFuncs is for the internal use of the proto package.
-func (*FieldData) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _FieldData_OneofMarshaler, _FieldData_OneofUnmarshaler, _FieldData_OneofSizer, []interface{}{
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*FieldData) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
 		(*FieldData_ValueBin)(nil),
 		(*FieldData_ValueInt)(nil),
 	}
-}
-
-func _FieldData_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
-	m := msg.(*FieldData)
-	// encoding
-	switch x := m.Encoding.(type) {
-	case *FieldData_ValueBin:
-		b.EncodeVarint(1<<3 | proto.WireBytes)
-		b.EncodeRawBytes(x.ValueBin)
-	case *FieldData_ValueInt:
-		b.EncodeVarint(2<<3 | proto.WireVarint)
-		b.EncodeVarint(uint64(x.ValueInt))
-	case nil:
-	default:
-		return fmt.Errorf("FieldData.Encoding has unexpected type %T", x)
-	}
-	return nil
-}
-
-func _FieldData_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
-	m := msg.(*FieldData)
-	switch tag {
-	case 1: // encoding.value_bin
-		if wire != proto.WireBytes {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeRawBytes(true)
-		m.Encoding = &FieldData_ValueBin{x}
-		return true, err
-	case 2: // encoding.value_int
-		if wire != proto.WireVarint {
-			return true, proto.ErrInternalBadWireType
-		}
-		x, err := b.DecodeVarint()
-		m.Encoding = &FieldData_ValueInt{x}
-		return true, err
-	default:
-		return false, nil
-	}
-}
-
-func _FieldData_OneofSizer(msg proto.Message) (n int) {
-	m := msg.(*FieldData)
-	// encoding
-	switch x := m.Encoding.(type) {
-	case *FieldData_ValueBin:
-		n += proto.SizeVarint(1<<3 | proto.WireBytes)
-		n += proto.SizeVarint(uint64(len(x.ValueBin)))
-		n += len(x.ValueBin)
-	case *FieldData_ValueInt:
-		n += proto.SizeVarint(2<<3 | proto.WireVarint)
-		n += proto.SizeVarint(uint64(x.ValueInt))
-	case nil:
-	default:
-		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
-	}
-	return n
 }
 
 func init() {
@@ -247,9 +195,9 @@ func init() {
 	proto.RegisterType((*FieldData)(nil), "bess.pb.FieldData")
 }
 
-func init() { proto.RegisterFile("util_msg.proto", fileDescriptor4) }
+func init() { proto.RegisterFile("util_msg.proto", fileDescriptor_13ab78aab20448e2) }
 
-var fileDescriptor4 = []byte{
+var fileDescriptor_13ab78aab20448e2 = []byte{
 	// 198 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x44, 0xcf, 0x4f, 0x4b, 0xc4, 0x30,
 	0x10, 0x05, 0xf0, 0xad, 0x7f, 0xd6, 0x66, 0x50, 0x0f, 0x39, 0x05, 0x44, 0x58, 0xf6, 0xb4, 0xa7,

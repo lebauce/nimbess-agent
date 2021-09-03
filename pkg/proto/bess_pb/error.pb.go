@@ -3,24 +3,55 @@
 
 package bess_pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 type Error struct {
-	Code   int32  `protobuf:"varint,1,opt,name=code" json:"code,omitempty"`
-	Errmsg string `protobuf:"bytes,2,opt,name=errmsg" json:"errmsg,omitempty"`
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Errmsg               string   `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Error) Reset()                    { *m = Error{} }
-func (m *Error) String() string            { return proto.CompactTextString(m) }
-func (*Error) ProtoMessage()               {}
-func (*Error) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+func (m *Error) Reset()         { *m = Error{} }
+func (m *Error) String() string { return proto.CompactTextString(m) }
+func (*Error) ProtoMessage()    {}
+func (*Error) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0579b252106fcf4a, []int{0}
+}
+
+func (m *Error) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Error.Unmarshal(m, b)
+}
+func (m *Error) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Error.Marshal(b, m, deterministic)
+}
+func (m *Error) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Error.Merge(m, src)
+}
+func (m *Error) XXX_Size() int {
+	return xxx_messageInfo_Error.Size(m)
+}
+func (m *Error) XXX_DiscardUnknown() {
+	xxx_messageInfo_Error.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Error proto.InternalMessageInfo
 
 func (m *Error) GetCode() int32 {
 	if m != nil {
@@ -40,9 +71,9 @@ func init() {
 	proto.RegisterType((*Error)(nil), "bess.pb.Error")
 }
 
-func init() { proto.RegisterFile("error.proto", fileDescriptor1) }
+func init() { proto.RegisterFile("error.proto", fileDescriptor_0579b252106fcf4a) }
 
-var fileDescriptor1 = []byte{
+var fileDescriptor_0579b252106fcf4a = []byte{
 	// 94 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4e, 0x2d, 0x2a, 0xca,
 	0x2f, 0xd2, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x4f, 0x4a, 0x2d, 0x2e, 0xd6, 0x2b, 0x48,
